@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Lost&amp;Found</string>
+    <string name="create_a_new_advert">Create a new advert</string>
+    <string name="show_all_lost_and_found_items">Show all lost &amp; found items</string>
+    <string name="edit_name">Name</string>
+    <string name="edit_phone">Phone</string>
+    <string name="post_type">Post type:</string>
+    <string name="edit_description">Description</string>
+    <string name="edit_date">Date</string>
+    <string name="edit_location">Location</string>
+    <string name="lost_and_found_items">Lost &amp; found items</string>
+</resources>
