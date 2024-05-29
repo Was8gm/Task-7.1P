@@ -107,4 +107,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{String.valueOf(id)});
         db.close();
     }
+    public List<String> fetchLocationList() {
+        List<String> locationList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_LOCATION + " FROM " + TABLE_NAME, null);
+        if (cursor.moveToFirst()) {
+            do {
+                locationList.add(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LOCATION)));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return locationList;
+    }
+
 }

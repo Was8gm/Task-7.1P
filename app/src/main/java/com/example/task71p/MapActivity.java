@@ -1,36 +1,64 @@
 package com.example.task71p;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
-    private GoogleMap mMap;
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private GoogleMap googleMap;
+    private List<String> locationList;
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+
+        dbHelper = new DatabaseHelper(this);
+        locationList = dbHelper.fetchLocationList();
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+    public void onMapReady(GoogleMap map) {
+        googleMap = map;
+        for (String location : locationList) {
+            addMarkerToLocation(location);
+        }
+    }
 
-        // Add a marker in Sydney, Australia, and move the camera.
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    private void addMarkerToLocation(String location) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocationName(location, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+                MarkerOptions markerOptions = new MarkerOptions()
+                        .position(latLng)
+                        .title(location);
+                googleMap.addMarker(markerOptions);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
