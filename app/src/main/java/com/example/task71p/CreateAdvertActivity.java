@@ -58,10 +58,10 @@ public class CreateAdvertActivity extends AppCompatActivity {
         editLocation = findViewById(R.id.edit_Location);
         btnSubmit = findViewById(R.id.btnSubmit);
         btnGetLocation = findViewById(R.id.btnGetLocation);
-
+        String API=getString(R.string.api_key);
         databaseHelper = new DatabaseHelper(this);
         if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), "AIzaSyDzUt6__g_56j8DLEIoh2x7vqkOgNoDPgw");
+            Places.initialize(getApplicationContext(), API);
         }
 
         PlacesClient placesClient = Places.createClient(this);
