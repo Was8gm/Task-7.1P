@@ -85,8 +85,13 @@
         android:padding="5dp"
         android:hint="@string/edit_location"
         android:inputType="text" />
-
-
+    <Button
+        android:id="@+id/btnGetLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Get Current Location" />
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
@@ -94,5 +99,6 @@
         android:layout_marginTop="40dp"
         android:layout_gravity="center_horizontal"
         android:text="save" />
+
 
 </LinearLayout>
